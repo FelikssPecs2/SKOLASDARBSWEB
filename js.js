@@ -13,7 +13,7 @@ document.getElementById('macroForm').addEventListener('submit', function(e) {
     const fatPercent = parseFloat(document.getElementById('fat').value);
     const carbPercent = parseFloat(document.getElementById('carb').value);
 
-    // BMR calculation (Mifflin-St Jeor)
+    // BMR kalkulators
     let bmr;
     if(sex === "male") {
         bmr = 10 * weight + 6.25 * height - 5 * age + 5;
@@ -21,16 +21,15 @@ document.getElementById('macroForm').addEventListener('submit', function(e) {
         bmr = 10 * weight + 6.25 * height - 5 * age - 161;
     }
 
-    // TDEE
+    
     let tdee = bmr * activity;
 
-    // Adjust for goal
+    
     let dailyTarget;
     if(goal === "cut") dailyTarget = tdee * 0.8;
     else if(goal === "bulk") dailyTarget = tdee * 1.2;
     else dailyTarget = tdee;
 
-    // Macronutrients in grams
     const proteinCalories = dailyTarget * (proteinPercent / 100);
     const fatCalories = dailyTarget * (fatPercent / 100);
     const carbCalories = dailyTarget * (carbPercent / 100);
@@ -39,7 +38,6 @@ document.getElementById('macroForm').addEventListener('submit', function(e) {
     const fatGrams = fatCalories / 9;
     const carbGrams = carbCalories / 4;
 
-    // Display results
     document.getElementById('bmr').textContent = `BMR: ${bmr.toFixed(0)} kcal`;
     document.getElementById('tdee').textContent = `TDEE: ${tdee.toFixed(0)} kcal`;
     document.getElementById('dailyTarget').textContent = `Daily Target: ${dailyTarget.toFixed(0)} kcal`;
@@ -50,7 +48,6 @@ document.getElementById('macroForm').addEventListener('submit', function(e) {
         <tr><td>Carbohydrate</td><td>${carbGrams.toFixed(1)}</td><td>${carbCalories.toFixed(0)}</td><td>${carbPercent}%</td></tr>
     `;
 
-    // Draw pie chart
     const ctx = document.getElementById('macroChart').getContext('2d');
     const data = {
         labels: ['Protein', 'Fat', 'Carbohydrates'],
@@ -80,3 +77,4 @@ document.getElementById('macroForm').addEventListener('submit', function(e) {
     }
     chartInstance = new Chart(ctx, config);
 });
+
